@@ -1,0 +1,11 @@
+version: "2.6.1"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    env_file: .env
+    ports:
+      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+    volumes:
+      - ./dbInit.sql:/docker-entrypoint-initdb.d/dbInit.sql
