@@ -6,6 +6,6 @@ services:
     restart: always
     env_file: .env
     ports:
-      - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
+      - $POSTGRES_PORT:$POSTGRES_PORT
     volumes:
       - ./dbInit.sql:/docker-entrypoint-initdb.d/dbInit.sql
