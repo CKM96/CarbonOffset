@@ -2,7 +2,7 @@ CREATE extension IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE users (
     id UUID DEFAULT uuid_generate_v4(),
-    email TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     PRIMARY KEY(id)
 );
