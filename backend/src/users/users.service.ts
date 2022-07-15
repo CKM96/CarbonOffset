@@ -6,6 +6,7 @@ import { Users } from './users.entity';
 import { hash } from 'bcrypt';
 
 export const USER_ALREADY_REGISTERED = 'User already registered';
+const SALT_ROUNDS = 10;
 
 @Injectable()
 export class UsersService {
@@ -19,9 +20,9 @@ export class UsersService {
     if (await this.findUser(email)) {
       throw Error(USER_ALREADY_REGISTERED);
     }
-    hash(password, 0, async (error, hash) => {
+    hash(password, SALT_ROUNDS, async (error, hash) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         await this.usersRepository.insert({
           email,
