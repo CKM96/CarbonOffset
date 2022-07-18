@@ -11,7 +11,8 @@ export class UsersService {
   ) {}
 
   async insertUser(user: Omit<Users, 'id'>) {
-    await this.usersRepository.insert(user);
+    const insertResult = await this.usersRepository.insert(user);
+    return insertResult.identifiers[0].id;
   }
 
   async findUser(email: string): Promise<Users> {

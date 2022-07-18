@@ -18,10 +18,11 @@ export class AuthService {
   async registerUser(userDto: UserDto) {
     const { email, password } = userDto;
     const hashedPassword = hashSync(password, SALT_ROUNDS);
-    await this.usersService.insertUser({
+    const generatedUserId = await this.usersService.insertUser({
       email,
       password_hash: hashedPassword,
     });
+    return await this.login({ email, id: generatedUserId });
   }
 
   async validateUser(email: string, password: string): Promise<any> {

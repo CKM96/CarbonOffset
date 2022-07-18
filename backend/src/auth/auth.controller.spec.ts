@@ -47,14 +47,22 @@ describe('AuthController', () => {
   describe('register', () => {
     it('creates a user if none exists', async () => {
       jest.spyOn(bcrypt, 'hashSync').mockReturnValue('hashedPassword');
-      const insertMock = jest.fn();
+      const signMock = jest.fn(() => 'accessToken');
+      const insertMock = jest.fn(() => ({
+        identifiers: [{ id: 'generatedId' }],
+      }));
 
       const app: TestingModule = await Test.createTestingModule({
         controllers: [AuthController],
         providers: [
           AuthService,
-          JwtService,
           UsersService,
+          {
+            provide: JwtService,
+            useValue: {
+              sign: signMock,
+            },
+          },
           {
             provide: getRepositoryToken(Users),
             useValue: {
@@ -66,14 +74,19 @@ describe('AuthController', () => {
 
       const authController = app.get<AuthController>(AuthController);
 
-      await authController.register({
+      const token = await authController.register({
         email: 'Email',
         password: 'Password',
       });
 
+      expect(token).toEqual({ accessToken: 'accessToken' });
       expect(insertMock).toHaveBeenCalledWith({
         email: 'Email',
         password_hash: 'hashedPassword',
+      });
+      expect(signMock).toHaveBeenCalledWith({
+        username: 'Email',
+        sub: 'generatedId',
       });
     });
 

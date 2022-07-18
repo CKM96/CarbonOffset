@@ -27,8 +27,7 @@ export class AuthController {
   @Post('register')
   async register(@Body() userDto: UserDto) {
     try {
-      await this.authService.registerUser(userDto);
-      return {};
+      return await this.authService.registerUser(userDto);
     } catch (e) {
       if (e.message === USER_ALREADY_REGISTERED_ERROR_MESSAGE) {
         throw new HttpException("User already registered", HttpStatus.CONFLICT);
