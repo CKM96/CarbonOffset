@@ -15,25 +15,7 @@ describe('AuthController', () => {
     it('generates a JWT', async () => {
       const signMock = jest.fn(() => 'accessToken');
 
-      const app: TestingModule = await Test.createTestingModule({
-        controllers: [AuthController],
-        providers: [
-          AuthService,
-          UsersService,
-          {
-            provide: JwtService,
-            useValue: {
-              sign: signMock,
-            },
-          },
-          {
-            provide: getRepositoryToken(Users),
-            useValue: {},
-          },
-        ],
-      }).compile();
-
-      const authController = app.get<AuthController>(AuthController);
+      const authController = await setupTest({ signMock });
 
       const token = await authController.login({
         user: { email: 'Email', id: 'Id' },
@@ -52,27 +34,7 @@ describe('AuthController', () => {
         identifiers: [{ id: 'generatedId' }],
       }));
 
-      const app: TestingModule = await Test.createTestingModule({
-        controllers: [AuthController],
-        providers: [
-          AuthService,
-          UsersService,
-          {
-            provide: JwtService,
-            useValue: {
-              sign: signMock,
-            },
-          },
-          {
-            provide: getRepositoryToken(Users),
-            useValue: {
-              insert: insertMock,
-            },
-          },
-        ],
-      }).compile();
-
-      const authController = app.get<AuthController>(AuthController);
+      const authController = await setupTest({ signMock, insertMock });
 
       const token = await authController.register({
         email: 'Email',
@@ -99,22 +61,7 @@ describe('AuthController', () => {
           ),
         );
 
-      const app: TestingModule = await Test.createTestingModule({
-        controllers: [AuthController],
-        providers: [
-          AuthService,
-          JwtService,
-          UsersService,
-          {
-            provide: getRepositoryToken(Users),
-            useValue: {
-              insert: insertMock,
-            },
-          },
-        ],
-      }).compile();
-
-      const authController = app.get<AuthController>(AuthController);
+      const authController = await setupTest({ insertMock });
 
       await expect(() =>
         authController.register({
@@ -131,22 +78,7 @@ describe('AuthController', () => {
         throw new Error('Hashing error');
       });
 
-      const app: TestingModule = await Test.createTestingModule({
-        controllers: [AuthController],
-        providers: [
-          AuthService,
-          JwtService,
-          UsersService,
-          {
-            provide: getRepositoryToken(Users),
-            useValue: {
-              insert: jest.fn(),
-            },
-          },
-        ],
-      }).compile();
-
-      const authController = app.get<AuthController>(AuthController);
+      const authController = await setupTest();
 
       await expect(() =>
         authController.register({
@@ -159,3 +91,28 @@ describe('AuthController', () => {
     });
   });
 });
+
+async function setupTest({
+  signMock = jest.fn(),
+  insertMock = jest.fn(),
+} = {}) {
+  const app: TestingModule = await Test.createTestingModule({
+    controllers: [AuthController],
+    providers: [
+      AuthService,
+      UsersService,
+      {
+        provide: JwtService,
+        useValue: {
+          sign: signMock,
+        },
+      },
+      {
+        provide: getRepositoryToken(Users),
+        useValue: { insert: insertMock },
+      },
+    ],
+  }).compile();
+
+  return app.get<AuthController>(AuthController);
+}
