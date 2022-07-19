@@ -17,7 +17,7 @@ export class ProjectsController {
   }
 
   @Get()
-  async getProjects() {
+  async getAll() {
     return await this.projectsService.getAll();
   }
 }
