@@ -96,7 +96,7 @@ async function setupTest({
   signMock = jest.fn(),
   insertMock = jest.fn(),
 } = {}) {
-  const app: TestingModule = await Test.createTestingModule({
+  const module: TestingModule = await Test.createTestingModule({
     controllers: [AuthController],
     providers: [
       AuthService,
@@ -114,5 +114,5 @@ async function setupTest({
     ],
   }).compile();
 
-  return app.get<AuthController>(AuthController);
+  return module.get<AuthController>(AuthController);
 }
