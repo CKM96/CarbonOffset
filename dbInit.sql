@@ -9,10 +9,10 @@ CREATE TABLE users (
 
 CREATE TABLE projects (
     id UUID DEFAULT uuid_generate_v4(),
-    user_id UUID,
+    user_id UUID NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    date_created TIMESTAMPTZ NOT NULL,
+    date_created TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY(id),
     CONSTRAINT fk_user
       FOREIGN KEY(user_id) 
