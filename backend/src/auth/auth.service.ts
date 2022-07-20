@@ -1,41 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { AccountService } from '../account/account.service';
 import { compareSync, hashSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UserDto } from '../users/user.dto';
-import { Users } from 'src/users/users.entity';
+import { AccountDto } from '../account/account.dto';
+import { Account } from 'src/account/account.entity';
 
-export const USER_ALREADY_REGISTERED = 'User already registered';
 const SALT_ROUNDS = 10;
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private accountService: AccountService,
     private jwtService: JwtService,
   ) {}
 
-  async registerUser(userDto: UserDto) {
-    const { email, password } = userDto;
+  async registerAccount(accountDto: AccountDto) {
+    const { email, password } = accountDto;
     const hashedPassword = hashSync(password, SALT_ROUNDS);
-    const generatedUserId = await this.usersService.insertUser({
+    const generatedAccountId = await this.accountService.insertAccount({
       email,
       password_hash: hashedPassword,
     });
-    return await this.login({ email, id: generatedUserId });
+    return await this.login({ email, id: generatedAccountId });
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.usersService.findUser(email);
-    if (user && compareSync(password, user.password_hash)) {
-      const { password_hash, ...result } = user;
+  async validateAccount(email: string, password: string): Promise<any> {
+    const account = await this.accountService.findAccount(email);
+    if (account && compareSync(password, account.password_hash)) {
+      const { password_hash, ...result } = account;
       return result;
     }
     return null;
   }
 
-  async login(user: Omit<Users, 'password_hash'>) {
-    const payload = { username: user.email, sub: user.id };
+  async login(account: Omit<Account, 'password_hash'>) {
+    const payload = { username: account.email, sub: account.id };
     return {
       accessToken: this.jwtService.sign(payload),
     };

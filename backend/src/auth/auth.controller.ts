@@ -9,10 +9,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { UserDto } from '../users/user.dto';
+import { AccountDto } from '../account/account.dto';
 
-const USER_ALREADY_REGISTERED_ERROR_MESSAGE =
-  'duplicate key value violates unique constraint "users_email_key"';
+const EMAIL_ALREADY_REGISTERED_ERROR_MESSAGE =
+  'duplicate key value violates unique constraint "account_email_key"';
 
 @Controller('auth')
 export class AuthController {
@@ -25,12 +25,15 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() userDto: UserDto) {
+  async register(@Body() accountDto: AccountDto) {
     try {
-      return await this.authService.registerUser(userDto);
+      return await this.authService.registerAccount(accountDto);
     } catch (e) {
-      if (e.message === USER_ALREADY_REGISTERED_ERROR_MESSAGE) {
-        throw new HttpException("User already registered", HttpStatus.CONFLICT);
+      if (e.message === EMAIL_ALREADY_REGISTERED_ERROR_MESSAGE) {
+        throw new HttpException(
+          'Email already registered',
+          HttpStatus.CONFLICT,
+        );
       } else {
         throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
       }

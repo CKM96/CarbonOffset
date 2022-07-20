@@ -14,7 +14,7 @@ const TEST_USER = {
 };
 
 const TEST_INSERT_PROJECT_BODY = {
-  user_id: '86a44927-e219-4871-8264-2b1e51d52b21',
+  account_id: '86a44927-e219-4871-8264-2b1e51d52b21',
   name: 'Name',
   description: 'Description',
 };
@@ -79,10 +79,10 @@ describe('Projects', () => {
       return request(app.getHttpServer())
         .post('/projects')
         .auth(token, { type: 'bearer' })
-        .send({ user_id: 'notAUuid', name: '' })
+        .send({ account_id: 'notAUuid', name: '' })
         .expect({
           statusCode: 400,
-          message: ['user_id must be a UUID', 'name should not be empty'],
+          message: ['account_id must be a UUID', 'name should not be empty'],
           error: 'Bad Request',
         });
     });

@@ -8,14 +8,14 @@ describe('ProjectsController', () => {
   it('getAll should return all projects', async () => {
     const project1 = {
       id: 'id',
-      user_id: 'user_id',
+      account_id: 'accountId',
       name: 'name',
       description: 'description',
       date_created: Date.now(),
     };
     const project2 = {
       id: 'id2',
-      user_id: 'user_id2',
+      accountId: 'accountId2',
       name: 'name2',
       description: 'description2',
       date_created: Date.now(),
@@ -31,7 +31,7 @@ describe('ProjectsController', () => {
 
   it('insert should add new projects', async () => {
     const insertMock = jest.fn();
-    const projectData = { user_id: 'userId', name: 'name', description: 'description' };
+    const projectData = { account_id: 'accountId', name: 'name', description: 'description' };
     const controller = await setupTest({ insertMock });
 
     await controller.insert(projectData);

@@ -11,7 +11,7 @@ export class Projects {
   id: string;
 
   @Column()
-  user_id: string;
+  account_id: string;
 
   @Column()
   name: string;

@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
+import { AccountService } from '../account/account.service';
 import * as bcrypt from 'bcrypt';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Users } from '../users/users.entity';
+import { Account } from '../account/account.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
@@ -27,7 +27,7 @@ describe('AuthController', () => {
   });
 
   describe('register', () => {
-    it('creates a user if none exists', async () => {
+    it('creates an account if none exists', async () => {
       jest.spyOn(bcrypt, 'hashSync').mockReturnValue('hashedPassword');
       const signMock = jest.fn(() => 'accessToken');
       const insertMock = jest.fn(() => ({
@@ -52,12 +52,12 @@ describe('AuthController', () => {
       });
     });
 
-    it('returns a 409 if a user already exists', async () => {
+    it('returns a 409 if an account already exists', async () => {
       const insertMock = jest
         .fn()
         .mockRejectedValue(
           new Error(
-            'duplicate key value violates unique constraint "users_email_key"',
+            'duplicate key value violates unique constraint "account_email_key"',
           ),
         );
 
@@ -69,7 +69,7 @@ describe('AuthController', () => {
           password: 'Password',
         }),
       ).rejects.toThrow(
-        new HttpException('User already registered', HttpStatus.CONFLICT),
+        new HttpException('Email already registered', HttpStatus.CONFLICT),
       );
     });
 
@@ -100,7 +100,7 @@ async function setupTest({
     controllers: [AuthController],
     providers: [
       AuthService,
-      UsersService,
+      AccountService,
       {
         provide: JwtService,
         useValue: {
@@ -108,7 +108,7 @@ async function setupTest({
         },
       },
       {
-        provide: getRepositoryToken(Users),
+        provide: getRepositoryToken(Account),
         useValue: { insert: insertMock },
       },
     ],

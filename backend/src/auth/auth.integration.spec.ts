@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { AuthModule } from './auth.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from '../users/users.entity';
+import { Account } from '../account/account.entity';
 
 describe('Auth', () => {
   let app: INestApplication;
@@ -15,7 +15,7 @@ describe('Auth', () => {
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
-          entities: [Users],
+          entities: [Account],
           dropSchema: true,
           synchronize: true,
           logging: false,

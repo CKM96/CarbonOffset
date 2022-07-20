@@ -3,7 +3,7 @@ require('dotenv').config();
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AccountModule } from './account/account.module';
 import { ProjectsModule } from './projects/projects.module';
 
 @Module({
@@ -17,7 +17,7 @@ import { ProjectsModule } from './projects/projects.module';
       database: process.env.POSTGRES_DB,
       autoLoadEntities: true,
     }),
-    UsersModule,
+    AccountModule,
     ProjectsModule,
   ],
 })
