@@ -29,7 +29,7 @@ describe('Auth', () => {
   });
 
   describe('register', () => {
-    it('registers users', () => {
+    it('returns a 201 on success', () => {
       return request(app.getHttpServer())
         .post('/auth/register')
         .send({ email: 'email@email.com', password: 'password' })
@@ -49,7 +49,7 @@ describe('Auth', () => {
   });
 
   describe('login', () => {
-    it('logs in existing users', () => {
+    it('returns a 201 on success', () => {
       return request(app.getHttpServer())
         .post('/auth/login')
         .send({ email: 'email@email.com', password: 'password' })
