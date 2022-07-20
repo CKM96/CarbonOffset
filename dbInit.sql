@@ -7,7 +7,7 @@ CREATE TABLE account (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE projects (
+CREATE TABLE project (
     id UUID DEFAULT uuid_generate_v4(),
     account_id UUID NOT NULL,
     name TEXT NOT NULL,

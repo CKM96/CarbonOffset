@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { InsertProjectDto, UpdateProjectDto } from './project.dto';
-import { Projects } from './projects.entity';
+import { Project } from './project.entity';
 
 @Injectable()
-export class ProjectsService {
+export class ProjectService {
   constructor(
-    @InjectRepository(Projects)
-    private projectsRepository: Repository<Projects>,
+    @InjectRepository(Project)
+    private projectsRepository: Repository<Project>,
   ) {}
 
   async insertProject(project: InsertProjectDto) {
@@ -19,7 +19,7 @@ export class ProjectsService {
     await this.projectsRepository.update(project.id, project);
   }
 
-  async getAll(): Promise<Projects[]> {
+  async getAll(): Promise<Project[]> {
     return await this.projectsRepository.find();
   }
 }

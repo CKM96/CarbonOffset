@@ -2,10 +2,10 @@ require('dotenv').config();
 
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
-import { ProjectsModule } from './projects.module';
+import { ProjectModule } from './project.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Projects } from './projects.entity';
+import { Project } from './project.entity';
 import { JwtService } from '@nestjs/jwt';
 
 const TEST_USER = {
@@ -25,7 +25,7 @@ const TEST_UPDATE_PROJECT_BODY = {
   description: 'Description',
 };
 
-describe('Projects', () => {
+describe('Project', () => {
   let app: INestApplication;
 
   const token = new JwtService({ secret: process.env.JWT_SECRET }).sign({
@@ -36,11 +36,11 @@ describe('Projects', () => {
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [
-        ProjectsModule,
+        ProjectModule,
         TypeOrmModule.forRoot({
           type: 'sqlite',
           database: ':memory:',
-          entities: [Projects],
+          entities: [Project],
           dropSchema: true,
           synchronize: true,
           logging: false,

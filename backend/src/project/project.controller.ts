@@ -1,27 +1,27 @@
 import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { InsertProjectDto, UpdateProjectDto } from './project.dto';
-import { ProjectsService } from './projects.service';
+import { ProjectService } from './project.service';
 
 @Controller('projects')
-export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+export class ProjectController {
+  constructor(private readonly projectService: ProjectService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async insert(@Body() project: InsertProjectDto) {
-    await this.projectsService.insertProject(project);
+    await this.projectService.insertProject(project);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put()
   async update(@Body() project: UpdateProjectDto) {
-    await this.projectsService.updateProject(project);
+    await this.projectService.updateProject(project);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async getAll() {
-    return await this.projectsService.getAll();
+    return await this.projectService.getAll();
   }
 }

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ProjectsController } from './projects.controller';
-import { Projects } from './projects.entity';
-import { ProjectsService } from './projects.service';
+import { ProjectController } from './project.controller';
+import { Project } from './project.entity';
+import { ProjectService } from './project.service';
 
 describe('ProjectsController', () => {
   it('getAll should return all projects', async () => {
@@ -56,15 +56,15 @@ async function setupTest({
   updateMock = jest.fn(),
 } = {}) {
   const module: TestingModule = await Test.createTestingModule({
-    controllers: [ProjectsController],
+    controllers: [ProjectController],
     providers: [
-      ProjectsService,
+      ProjectService,
       {
-        provide: getRepositoryToken(Projects),
+        provide: getRepositoryToken(Project),
         useValue: { find: findMock, insert: insertMock, update: updateMock },
       },
     ],
   }).compile();
 
-  return module.get<ProjectsController>(ProjectsController);
+  return module.get<ProjectController>(ProjectController);
 }
