@@ -2,7 +2,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -18,7 +17,4 @@ export class Project {
 
   @Column({ nullable: true })
   description: string;
-
-  @CreateDateColumn()
-  dateCreated: Date;
 }

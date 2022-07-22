@@ -12,7 +12,6 @@ CREATE TABLE project (
     account_id UUID NOT NULL,
     name TEXT NOT NULL,
     description TEXT,
-    date_created TIMESTAMPTZ NOT NULL DEFAULT now(),
     PRIMARY KEY(id),
     CONSTRAINT fk_account
       FOREIGN KEY(account_id) 

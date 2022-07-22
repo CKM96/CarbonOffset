@@ -11,14 +11,12 @@ describe('ProjectsController', () => {
       accountId: 'accountId',
       name: 'name',
       description: 'description',
-      dateCreated: Date.now(),
     };
     const project2 = {
       id: 'id2',
       accountId: 'accountId2',
       name: 'name2',
       description: 'description2',
-      dateCreated: Date.now(),
     };
     const findMock = jest.fn(() => [project1, project2]);
     const controller = await setupTest({ findMock });
