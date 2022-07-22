@@ -44,7 +44,7 @@ describe('AuthController', () => {
       expect(token).toEqual({ accessToken: 'accessToken' });
       expect(insertMock).toHaveBeenCalledWith({
         email: 'Email',
-        password_hash: 'hashedPassword',
+        passwordHash: 'hashedPassword',
       });
       expect(signMock).toHaveBeenCalledWith({
         username: 'Email',

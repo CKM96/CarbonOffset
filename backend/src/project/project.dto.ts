@@ -11,7 +11,7 @@ export class UpdateProjectDto {
 
 export class InsertProjectDto {
   @IsUUID()
-  account_id: string;
+  accountId: string;
 
   @IsNotEmpty()
   name: string;

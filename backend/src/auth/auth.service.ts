@@ -19,21 +19,21 @@ export class AuthService {
     const hashedPassword = hashSync(password, SALT_ROUNDS);
     const generatedAccountId = await this.accountService.insertAccount({
       email,
-      password_hash: hashedPassword,
+      passwordHash: hashedPassword,
     });
     return await this.login({ email, id: generatedAccountId });
   }
 
   async validateAccount(email: string, password: string): Promise<any> {
     const account = await this.accountService.findAccount(email);
-    if (account && compareSync(password, account.password_hash)) {
-      const { password_hash, ...result } = account;
+    if (account && compareSync(password, account.passwordHash)) {
+      const { passwordHash, ...result } = account;
       return result;
     }
     return null;
   }
 
-  async login(account: Omit<Account, 'password_hash'>) {
+  async login(account: Omit<Account, 'passwordHash'>) {
     const payload = { username: account.email, sub: account.id };
     return {
       accessToken: this.jwtService.sign(payload),

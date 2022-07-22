@@ -11,7 +11,7 @@ export class Project {
   id: string;
 
   @Column()
-  account_id: string;
+  accountId: string;
 
   @Column()
   name: string;
@@ -20,5 +20,5 @@ export class Project {
   description: string;
 
   @CreateDateColumn()
-  date_created: Date;
+  dateCreated: Date;
 }

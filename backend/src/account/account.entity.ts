@@ -9,5 +9,5 @@ export class Account {
   email: string;
 
   @Column()
-  password_hash: string;
+  passwordHash: string;
 }
