@@ -1,9 +1,16 @@
 import Link from 'next/link';
 import { Project } from '../types';
+import styled from 'styled-components';
 
 type HomeProps = {
   projects: Project[];
 };
+
+const Project = styled.div`
+  border-style: solid;
+  padding: 8px;
+  max-width: 500px;
+`;
 
 function Home({ projects }: HomeProps) {
   return (
@@ -13,10 +20,10 @@ function Home({ projects }: HomeProps) {
         <button>Create new project</button>
       </Link>
       {projects?.map((project) => (
-        <div key={project.id}>
+        <Project key={project.id}>
           <h3>{project.name}</h3>
           <div>{project.description}</div>
-        </div>
+        </Project>
       ))}
     </>
   );
