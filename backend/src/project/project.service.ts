@@ -11,11 +11,11 @@ export class ProjectService {
     private projectsRepository: Repository<Project>,
   ) {}
 
-  async insertProject(project: InsertProjectDto) {
-    await this.projectsRepository.insert(project);
+  async insertProject(accountId: string, project: InsertProjectDto) {
+    await this.projectsRepository.insert({ accountId, ...project });
   }
 
-  async updateProject(project: UpdateProjectDto) { 
+  async updateProject(project: UpdateProjectDto) {
     await this.projectsRepository.update(project.id, project);
   }
 

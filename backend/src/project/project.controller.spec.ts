@@ -29,12 +29,12 @@ describe('ProjectsController', () => {
 
   it('insert should add new projects', async () => {
     const insertMock = jest.fn();
-    const projectData = { accountId: 'accountId', name: 'name', description: 'description' };
+    const projectData = { name: 'name', description: 'description' };
     const controller = await setupTest({ insertMock });
 
-    await controller.insert(projectData);
+    await controller.insert(projectData, { user: { accountId: 'accountId' } });
 
-    expect(insertMock).toHaveBeenCalledWith(projectData);
+    expect(insertMock).toHaveBeenCalledWith({ accountId: 'accountId', ...projectData });
   });
 
   it('update should updaste existing projects', async () => {
