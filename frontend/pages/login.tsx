@@ -15,6 +15,11 @@ const Label = styled.label`
   margin-bottom: 8px;
 `;
 
+const Error = styled.div`
+  width: 300px;
+  color: red;
+`;
+
 const ButtonWrapper = styled.div`
   width: 300px;
   display: flex;
@@ -25,6 +30,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
+  const [errorCode, setErrorCode] = useState<number>();
 
   const router = useRouter();
 
@@ -55,6 +61,19 @@ function Login() {
       const body = await res.json();
       document.cookie = `accessToken=${body.accessToken};Max-Age=${3600}`;
       router.push('/home');
+    } else {
+      setErrorCode(res.status);
+    }
+  };
+
+  const errorMessage = () => {
+    switch (errorCode) {
+      case 401:
+        return 'Incorrect email or password.';
+      case 409:
+        return 'Email already registered.';
+      default:
+        return 'An error occurred. Please try again.';
     }
   };
 
@@ -78,8 +97,15 @@ function Login() {
             required
           />
         </Label>
+        {errorCode && (
+          <Error>{errorCode && <Error>{errorMessage()}</Error>}</Error>
+        )}
         <ButtonWrapper>
-          <input type="submit" value="Login" />
+          <input
+            onClick={() => setIsRegistering(false)}
+            type="submit"
+            value="Login"
+          />
           <input
             onClick={() => setIsRegistering(true)}
             type="submit"
