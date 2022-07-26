@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import cookie from 'cookie';
@@ -24,6 +24,13 @@ function CreateProject() {
   const [description, setDescription] = useState('');
 
   const router = useRouter();
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie)?.accessToken;
+    if (!token) {
+      router.push('/login');
+    }
+  })
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
