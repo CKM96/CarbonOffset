@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import cookie from 'cookie';
 
 const Form = styled.form`
   display: flex;
@@ -26,6 +27,13 @@ function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie)?.accessToken;
+    if (token) {
+      router.push('/home');
+    }
+  }, []);
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
