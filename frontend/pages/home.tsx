@@ -55,7 +55,19 @@ function Home() {
         </Link>
         {data?.map((project) => (
           <Project key={project.id}>
-            {project.accountId === accountId && <button>Edit</button>}
+            {project.accountId === accountId && (
+              <Link
+                href={{
+                  pathname: `edit-project/${project.id}`,
+                  query: {
+                    originalName: project.name,
+                    originalDescription: project.description,
+                  },
+                }}
+              >
+                <button>Edit</button>
+              </Link>
+            )}
             <h3>{project.name}</h3>
             <div>{project.description}</div>
           </Project>

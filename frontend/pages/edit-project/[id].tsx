@@ -19,11 +19,12 @@ const SubmitButton = styled.input`
   max-width: 300px;
 `;
 
-function CreateProject() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-
+function EditProject() {
   const router = useRouter();
+  const { id, originalName, originalDescription } = router.query;
+
+  const [name, setName] = useState(originalName);
+  const [description, setDescription] = useState(originalDescription);
 
   useEffect(() => {
     const token = cookie.parse(document.cookie)?.accessToken;
@@ -36,13 +37,14 @@ function CreateProject() {
     event.preventDefault();
     const token = cookie.parse(document.cookie)?.accessToken;
     const res = await fetch('http://localhost:3001/projects', {
-      method: 'post',
+      method: 'put',
       headers: {
         Authorization: `Bearer ${token}`,
         Origin: 'localhost:3000',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        id,
         name,
         description,
       }),
@@ -56,7 +58,7 @@ function CreateProject() {
 
   return (
     <>
-      <h1>Create Offsetting Project</h1>
+      <h1>Edit Offsetting Project</h1>
       <Form onSubmit={(event) => onSubmit(event)}>
         <Label>
           Name
@@ -81,4 +83,4 @@ function CreateProject() {
   );
 }
 
-export default CreateProject;
+export default EditProject;
