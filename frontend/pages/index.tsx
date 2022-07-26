@@ -1,11 +1,17 @@
 import Link from 'next/link';
-import { Project } from '../types';
 import styled from 'styled-components';
 import useSWR from 'swr';
 import cookie from 'cookie';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
+
+type Project = {
+  id: string;
+  accountId: string;
+  name: string;
+  description?: string;
+};
 
 const Page = styled.div`
   max-width: 800px;
