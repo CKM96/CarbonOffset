@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import cookie from 'cookie';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const Project = styled.div`
   border-style: solid;
@@ -12,7 +14,16 @@ const Project = styled.div`
 `;
 
 function Home() {
+  const [accountId, setAccountId] = useState<string>();
+
   const router = useRouter();
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie)?.accessToken;
+    if (token) {
+      setAccountId(jwtDecode<string>(token).sub);
+    }
+  }, []);
 
   const { data, error } = useSWR<Project[]>(
     'http://localhost:3001/projects',
@@ -44,6 +55,7 @@ function Home() {
         </Link>
         {data?.map((project) => (
           <Project key={project.id}>
+            {project.accountId === accountId && <button>Edit</button>}
             <h3>{project.name}</h3>
             <div>{project.description}</div>
           </Project>
