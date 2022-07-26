@@ -48,7 +48,7 @@ function CreateProject() {
       }),
     });
     if (res.ok) {
-      router.push('/home');
+      router.push('/');
     } else {
       router.push('/login');
     }

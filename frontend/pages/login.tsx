@@ -37,7 +37,7 @@ function Login() {
   useEffect(() => {
     const token = cookie.parse(document.cookie)?.accessToken;
     if (token) {
-      router.push('/home');
+      router.push('/');
     }
   }, []);
 
@@ -60,7 +60,7 @@ function Login() {
     if (res.ok) {
       const body = await res.json();
       document.cookie = `accessToken=${body.accessToken};Max-Age=${3600}`;
-      router.push('/home');
+      router.push('/');
     } else {
       setErrorCode(res.status);
     }
