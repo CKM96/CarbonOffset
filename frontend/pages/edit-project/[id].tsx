@@ -1,23 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import cookie from 'cookie';
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Label = styled.label`
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin-bottom: 8px;
-`;
-
-const SubmitButton = styled.input`
-  max-width: 300px;
-`;
+import ProjectForm from '../../components/ProjectForm';
 
 function EditProject() {
   const router = useRouter();
@@ -59,26 +43,13 @@ function EditProject() {
   return (
     <>
       <h1>Edit Offsetting Project</h1>
-      <Form onSubmit={(event) => onSubmit(event)}>
-        <Label>
-          Name
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            required
-          />
-        </Label>
-        <Label>
-          Description (optional)
-          <input
-            type="text"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </Label>
-        <SubmitButton type="submit" value="Submit" />
-      </Form>
+      <ProjectForm
+        onSubmit={onSubmit}
+        name={name as string}
+        setName={setName}
+        description={description as string}
+        setDescription={setDescription}
+      />
     </>
   );
 }
