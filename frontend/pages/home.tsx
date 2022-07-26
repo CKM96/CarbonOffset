@@ -7,10 +7,19 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 
+const Page = styled.div`
+  max-width: 800px;
+`;
+
 const Project = styled.div`
   border-style: solid;
   padding: 8px;
-  max-width: 500px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 function Home() {
@@ -46,34 +55,41 @@ function Home() {
     router.push('/login');
   }
 
+  const logout = () => {
+    document.cookie = 'accessToken=;Max-Age=0';
+  };
+
   return (
-    <>
+    <Page>
       <h1>Carbon Offsetting Projects</h1>
-      <>
+      <ButtonWrapper>
         <Link href="create-project">
           <button>Create new project</button>
         </Link>
-        {data?.map((project) => (
-          <Project key={project.id}>
-            {project.accountId === accountId && (
-              <Link
-                href={{
-                  pathname: `edit-project/${project.id}`,
-                  query: {
-                    originalName: project.name,
-                    originalDescription: project.description,
-                  },
-                }}
-              >
-                <button>Edit</button>
-              </Link>
-            )}
-            <h3>{project.name}</h3>
-            <div>{project.description}</div>
-          </Project>
-        ))}
-      </>
-    </>
+        <Link href="login">
+          <button onClick={logout}>Logout</button>
+        </Link>
+      </ButtonWrapper>
+      {data?.map((project) => (
+        <Project key={project.id}>
+          {project.accountId === accountId && (
+            <Link
+              href={{
+                pathname: `edit-project/${project.id}`,
+                query: {
+                  originalName: project.name,
+                  originalDescription: project.description,
+                },
+              }}
+            >
+              <button>Edit</button>
+            </Link>
+          )}
+          <h3>{project.name}</h3>
+          <div>{project.description}</div>
+        </Project>
+      ))}
+    </Page>
   );
 }
 
