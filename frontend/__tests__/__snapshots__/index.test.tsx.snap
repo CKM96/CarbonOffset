@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-bczRLJ bWBldo"
+  >
+    <h1>
+      Carbon Offsetting Projects
+    </h1>
+    <div
+      class="sc-dkzDqf dJcJSQ"
+    >
+      <button>
+        Create new project
+      </button>
+      <button>
+        Logout
+      </button>
+    </div>
+    <div
+      class="sc-gsnTZi feoVmg"
+    >
+      <button>
+        Edit
+      </button>
+      <h3>
+        Project name
+      </h3>
+      <div>
+        Project description
+      </div>
+    </div>
+    <div
+      class="sc-gsnTZi feoVmg"
+    >
+      <h3>
+        Second project name
+      </h3>
+      <div>
+        Second project description
+      </div>
+    </div>
+  </div>
+</div>
+`;

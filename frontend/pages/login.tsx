@@ -59,7 +59,7 @@ function Login() {
     );
     if (res.ok) {
       const body = await res.json();
-      document.cookie = `accessToken=${body.accessToken};Max-Age=${3600}`;
+      document.cookie = `accessToken=${body.accessToken};Max-Age=3600`;
       router.push('/');
     } else {
       setErrorCode(res.status);
