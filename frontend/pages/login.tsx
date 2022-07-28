@@ -79,12 +79,13 @@ function Login() {
 
   return (
     <>
-      <h1>Login</h1>
+      <h1>Login/Register</h1>
       <Form onSubmit={(event) => onSubmit(event)}>
         <Label>
           Email
           <input
             type="email"
+            value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
           />
@@ -93,24 +94,24 @@ function Login() {
           Password
           <input
             type="password"
+            value={password}
             onChange={(event) => setPassword(event.target.value)}
             required
+          />
+        </Label>
+        <Label>
+          Register as new user
+          <input
+            type="checkbox"
+            checked={isRegistering}
+            onChange={() => setIsRegistering(!isRegistering)}
           />
         </Label>
         {errorCode && (
           <Error>{errorCode && <Error>{errorMessage()}</Error>}</Error>
         )}
         <ButtonWrapper>
-          <input
-            onClick={() => setIsRegistering(false)}
-            type="submit"
-            value="Login"
-          />
-          <input
-            onClick={() => setIsRegistering(true)}
-            type="submit"
-            value="Register"
-          />
+          <input type="submit" value={isRegistering ? 'Register' : 'Login'} />
         </ButtonWrapper>
       </Form>
     </>
