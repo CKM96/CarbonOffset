@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import cookie from 'cookie';
+import { parse } from 'cookie';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
@@ -33,17 +33,21 @@ function Home() {
 
   const router = useRouter();
 
+  const logout = () => {
+    document.cookie = 'accessToken=;Max-Age=0';
+  };
+
   useEffect(() => {
-    const token = cookie.parse(document.cookie)?.accessToken;
+    const token = parse(document.cookie)?.accessToken;
     if (token) {
       setAccountId(jwtDecode<string>(token).sub);
     }
   }, []);
 
-  const { data, error } = useSWR<Project[]>(
+  const { data } = useSWR<Project[]>(
     'http://localhost:3001/projects',
     async (url: string) => {
-      const token = cookie.parse(document.cookie)?.accessToken;
+      const token = parse(document.cookie)?.accessToken;
       const res = await fetch(url, {
         headers: new Headers({
           Authorization: `Bearer ${token}`,
@@ -52,18 +56,11 @@ function Home() {
       if (res.ok) {
         return await res.json();
       } else {
+        logout();
         router.push('/login');
       }
     },
   );
-
-  if (error) {
-    router.push('/login');
-  }
-
-  const logout = () => {
-    document.cookie = 'accessToken=;Max-Age=0';
-  };
 
   return (
     <Page>
