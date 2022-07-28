@@ -7,8 +7,8 @@ function EditProject() {
   const router = useRouter();
   const { id, originalName, originalDescription } = router.query;
 
-  const [name, setName] = useState(originalName);
-  const [description, setDescription] = useState(originalDescription);
+  const [name, setName] = useState(originalName ?? '');
+  const [description, setDescription] = useState(originalDescription ?? '');
 
   useEffect(() => {
     const token = cookie.parse(document.cookie)?.accessToken;
