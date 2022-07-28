@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import cookie from 'cookie';
+import { parse } from 'cookie';
 import ProjectForm from '../components/ProjectForm';
 
 function CreateProject() {
@@ -10,7 +10,7 @@ function CreateProject() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = cookie.parse(document.cookie)?.accessToken;
+    const token = parse(document.cookie)?.accessToken;
     if (!token) {
       router.push('/login');
     }
@@ -18,7 +18,7 @@ function CreateProject() {
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const token = cookie.parse(document.cookie)?.accessToken;
+    const token = parse(document.cookie)?.accessToken;
     const res = await fetch('http://localhost:3001/projects', {
       method: 'post',
       headers: {

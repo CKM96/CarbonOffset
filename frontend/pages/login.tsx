@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import cookie from 'cookie';
+import { parse } from 'cookie';
 
 const Form = styled.form`
   display: flex;
@@ -35,7 +35,7 @@ function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = cookie.parse(document.cookie)?.accessToken;
+    const token = parse(document.cookie)?.accessToken;
     if (token) {
       router.push('/');
     }
